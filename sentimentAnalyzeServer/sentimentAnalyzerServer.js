@@ -12,11 +12,18 @@ app.get("/",(req,res)=>{
     res.render('index.html');
   });
 
-app.get("/url/emotion", (req,res) => {
-
-    return res.send({"happy":"90","sad":"10"});
-});
-
+app.get(getNLUInstance, (req,res) => { 
+    return res.send(
+  {
+  naturalLanguageUnderstanding.analyze(req)
+  .then(analysisResults => {
+    console.log(JSON.stringify(analysisResults, null, 2));
+  })
+  .catch(err => {
+    console.log('error:', err);
+  })
+  });
+}
 app.get("/url/sentiment", (req,res) => {
     return res.send("url sentiment for "+req.query.url);
 });
